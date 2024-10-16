@@ -2,9 +2,10 @@ from django.http import HttpResponse
 from django.template import Template, Context, loader
 from datetime import datetime
 from django.shortcuts import render 
+from inicio.models import Pesas 
 
 def inicio(request):
-    return HttpResponse("<h1>soy la pantalla de inicio</h1>")
+    return render(request, "index.html")
 
 def vista_datos1(request, nombre):
     nombre_mayuscula = nombre.upper()
@@ -30,3 +31,9 @@ def segundo_template(request):
     }
 
     return render(request, "segundo_template.html", datos)
+
+def crear_pesa(request, marca, material, peso):
+
+    pesa = Pesas(marca=marca, material=material, peso=peso)
+    pesa.save()
+    return render(request, "creacion_pesa.html", {"pesa": pesa})
