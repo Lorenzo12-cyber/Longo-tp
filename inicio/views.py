@@ -5,7 +5,7 @@ from django.shortcuts import render
 from inicio.models import Pesas 
 
 def inicio(request):
-    return render(request, "index.html")
+    return render(request, "inicio/index.html")
 
 def vista_datos1(request, nombre):
     nombre_mayuscula = nombre.upper()
@@ -30,10 +30,10 @@ def segundo_template(request):
         "numeros": list(range(1, 11))
     }
 
-    return render(request, "segundo_template.html", datos)
+    return render(request, "inicio/segundo_template.html", datos)
 
 def crear_pesa(request, marca, material, peso):
 
     pesa = Pesas(marca=marca, material=material, peso=peso)
     pesa.save()
-    return render(request, "creacion_pesa.html", {"pesa": pesa})
+    return render(request, "inicio/creacion_pesa.html", {"pesa": pesa})
