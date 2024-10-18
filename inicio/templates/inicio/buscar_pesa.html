@@ -1,0 +1,24 @@
+{% extends "inicio/index.html" %}
+{% load static %}
+{% block title_head %}
+Buscar Pesa
+{% endblock title_head %}
+{% block h1_header %}Buscar Pesa{% endblock h1_header %}
+{% block main %}
+
+<form action={% url "inicio:buscar_pesa" %}>
+    {{form}}
+    <input type="submit">
+</form>
+
+{% if pesas %}
+<ul>
+    {% for pesas in pesas %}
+    <li>{{pesa}}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay pesas registradas.</p>
+{% endif %}
+
+{% endblock main %}

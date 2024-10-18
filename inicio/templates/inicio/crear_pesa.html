@@ -1,0 +1,18 @@
+{% extends "inicio/index.html" %}
+{% load static %}
+{% block title_head %}
+Crear Pesa
+{% endblock title_head %}
+{% block h1_header %}Crear Pesa{% endblock h1_header %}
+{% block main %}
+
+<form action={% url "inicio:crear_pesa" %} method="POST">
+    {% csrf_token %}
+    
+    {{form}}  
+
+    <input type="Submit" value="Enviar">    
+</form>
+
+
+{% endblock main %}

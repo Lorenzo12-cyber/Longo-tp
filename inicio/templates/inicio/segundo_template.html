@@ -1,7 +1,10 @@
-{% extends "index.html" %}
+{% extends "inicio/index.html" %}
+{% load static %}
 {% block h1_header %}segundo template{% endblock h1_header %}
- 
-<h2>{{fecha_actual}}</h2>
-<p>{{listado}}</p>     
-</body>
-</html>  
+
+{% block main %}
+<h1>{{fecha_actual}}</h1>
+<p>
+    
+</p>
+{% endblock main %}

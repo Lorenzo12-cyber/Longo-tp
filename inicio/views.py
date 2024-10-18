@@ -1,15 +1,12 @@
 from django.http import HttpResponse
 from django.template import Template, Context, loader
 from datetime import datetime
-from django.shortcuts import render 
+from django.shortcuts import render, redirect
 from inicio.models import Pesas 
+from inicio.forms import CrearPesaFormulario, BuscarPesaFormulario
 
 def inicio(request):
     return render(request, "inicio/index.html")
-
-def vista_datos1(request, nombre):
-    nombre_mayuscula = nombre.upper()
-    return HttpResponse(f"Hola {nombre_mayuscula}!!")
 
 def primer_template(request):
 
@@ -27,13 +24,31 @@ def segundo_template(request):
     fecha_actual = datetime.now()
     datos = {
         "fecha_actual": fecha_actual,
-        "numeros": list(range(1, 11))
     }
 
     return render(request, "inicio/segundo_template.html", datos)
 
-def crear_pesa(request, marca, material, peso):
 
-    pesa = Pesas(marca=marca, material=material, peso=peso)
-    pesa.save()
-    return render(request, "inicio/creacion_pesa.html", {"pesa": pesa})
+def buscar_pesa(request):
+
+    formulario = BuscarPesaFormulario(request.GET)
+    if formulario.is_valid():
+        marca = formulario.cleaned_data.get("marca") 
+        pesas = Pesas.objects.filter(marca__icontains=marca)
+
+    return render(request, "inicio/buscar_pesa.html", {"pesas": pesas, "form": formulario})
+
+def crear_pesa(request):
+
+    formulario = CrearPesaFormulario()
+
+    if request.method == "POST":
+  
+        formulario = CrearPesaFormulario(request.POST)
+        if formulario.is_valid(): 
+            data = formulario.cleaned_data 
+            pesa = Pesas(marca=data.get("marca"), material=data.get("material"), peso=data.get("peso"))
+            pesa.save()
+            return redirect("inicio:buscar_pesa") 
+
+    return render(request, "inicio/crear_pesa.html", {"form": formulario})
