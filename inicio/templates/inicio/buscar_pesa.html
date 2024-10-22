@@ -3,7 +3,7 @@
 {% block title_head %}
 Buscar Pesa
 {% endblock title_head %}
-{% block h1_header %}Buscar Pesa{% endblock h1_header %}
+{% block h1_header %}buscar pesa{% endblock h1_header %}
 {% block main %}
 
 <form action={% url "inicio:buscar_pesa" %}>
@@ -13,8 +13,12 @@ Buscar Pesa
 
 {% if pesas %}
 <ul>
-    {% for pesas in pesas %}
-    <li>{{pesa}}</li>
+    {% for pesa in pesas %}
+    <li>{{pesa}}
+        | <a href={% url "inicio:ver_pesa" pesa.id %}>Ver mas</a> 
+        | <a href={% url "inicio:editar_pesa" pesa.id %}>Editar</a> 
+        | <a href={% url "inicio:eliminar_pesa" pesa.id %}>Eliminar</a> 
+    </li>
     {% endfor %}
 </ul>
 {% else %}

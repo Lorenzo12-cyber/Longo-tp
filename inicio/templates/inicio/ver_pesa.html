@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title_head %}
+Ver pesa
+{% endblock title_head %}
+{% block h1_header %}{{pesa}}{% endblock h1_header %}
+{% block main %}
+<ul>
+    <li>Marca: {{pesa.marca}}</li> 
+    <li>Material: {{pesa.material}}</li>
+    <li>Peso: {{pesa.peso}}</li>   
+</ul>    
+{% endblock main%}
+

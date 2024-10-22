@@ -3,14 +3,14 @@ from django.template import Template, Context, loader
 from datetime import datetime
 from django.shortcuts import render, redirect
 from inicio.models import Pesas 
-from inicio.forms import CrearPesaFormulario, BuscarPesaFormulario
+from inicio.forms import CrearPesaFormulario, BuscarPesaFormulario, EditarPesaFormulario
 
 def inicio(request):
     return render(request, "inicio/index.html")
 
-def primer_template(request):
+def acerca_de_mi(request):
 
-    archivo_del_template = open(r"templates\primer_template.html")
+    archivo_del_template = open(r"templates\acerca_de_mi.html")
     template = Template(archivo_del_template.read())
     archivo_del_template.close()
     contexto = Context()
@@ -18,16 +18,6 @@ def primer_template(request):
     render_template = template.render(contexto)
 
     return HttpResponse(render_template) 
-
-def segundo_template(request):
-
-    fecha_actual = datetime.now()
-    datos = {
-        "fecha_actual": fecha_actual,
-    }
-
-    return render(request, "inicio/segundo_template.html", datos)
-
 
 def buscar_pesa(request):
 
@@ -52,3 +42,31 @@ def crear_pesa(request):
             return redirect("inicio:buscar_pesa") 
 
     return render(request, "inicio/crear_pesa.html", {"form": formulario})
+
+
+def ver_pesa(request, id):
+    pesa = Pesas.objects.get(id=id)
+    return render(request, "inicio/ver_pesa.html", {"pesa": pesa})
+
+
+def eliminar_pesa(request, id):
+    pesa = Pesas.objects.get(id=id)
+    pesa.delete()
+    return redirect("inicio:buscar_pesa")
+
+def editar_pesa(request, id):
+    pesa = Pesas.objects.get(id=id)
+
+    formulario = EditarPesaFormulario(initial={"material": pesa.material, "marca": pesa.marca, "peso": pesa.peso})
+
+    if request.method == "POST":
+        formulario = EditarPesaFormulario(request.POST)
+        if formulario.is_valid():
+            pesa.material = formulario.cleaned_data.get("material")
+            pesa.marca = formulario.cleaned_data.get("marca")
+            pesa.peso = formulario.cleaned_data.get("peso")
+
+            pesa.save()
+
+            return redirect("inicio:buscar_pesa")
+    return render(request, "inicio/editar_pesa.html", {"pesa": pesa, "form": formulario})
