@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title_head %}
+Ver Barra
+{% endblock title_head %}
+{% block h1_header %}{{barra}}{% endblock h1_header %}
+{% block main %}
+<ul>
+    <li>Marca: {{barra.marca}}</li> 
+    <li>Modelo: {{barra.modelo}}</li>
+    <li>Peso: {{barra.peso}}</li>   
+</ul>    
+{% endblock main%}

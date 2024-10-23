@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title_head %}
+Eliminar Barra
+{% endblock title_head %}
+{% block h1_header %}Eliminar Barra{% endblock h1_header %}
+{% block main %}
+
+<form action={% url "productos:eliminar_barra" barra.id %} method="POST">
+    {% csrf_token %}
+    <P>Desea eliminar la barra {{barra}}?</p> 
+
+    <input type="Submit" value="Confirmar">    
+</form>
+
+
+{% endblock main %}
