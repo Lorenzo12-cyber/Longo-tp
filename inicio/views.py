@@ -4,6 +4,7 @@ from datetime import datetime
 from django.shortcuts import render, redirect
 from inicio.models import Pesas 
 from inicio.forms import CrearPesaFormulario, BuscarPesaFormulario, EditarPesaFormulario
+from django.contrib.auth.decorators import login_required
 
 def inicio(request):
     return render(request, "inicio/index.html")
@@ -48,12 +49,12 @@ def ver_pesa(request, id):
     pesa = Pesas.objects.get(id=id)
     return render(request, "inicio/ver_pesa.html", {"pesa": pesa})
 
-
+@login_required
 def eliminar_pesa(request, id):
     pesa = Pesas.objects.get(id=id)
     pesa.delete()
     return redirect("inicio:buscar_pesa")
-
+@login_required
 def editar_pesa(request, id):
     pesa = Pesas.objects.get(id=id)
 

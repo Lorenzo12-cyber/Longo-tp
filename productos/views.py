@@ -5,6 +5,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from productos.models import Barra
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class CrearBarra(CreateView):
@@ -22,12 +23,12 @@ class VerBarra(DetailView):
     model = Barra
     template_name = "productos/ver_barra.html"
 
-class EditarBarra(UpdateView):
+class EditarBarra(LoginRequiredMixin, UpdateView):
     model = Barra
     template_name = reverse_lazy("productos/editar_barra.html")
     success_url = ["modelo", "marca", "peso"]
 
-class EliminarBarra(DeleteView):
+class EliminarBarra(LoginRequiredMixin, DeleteView):
     model = Barra
     template_name = "productos/eliminar_barra.html"
     success_url = reverse_lazy("productos:listado_barras")
