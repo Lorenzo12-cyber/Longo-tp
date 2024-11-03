@@ -48,7 +48,7 @@ def editar_perfil(request):
         formulario = FormularioEdicionPerfil(request.POST, request.FILES, instance=request.user)
         if formulario.is_valid():
             
-            new_avatar = formulario.cleaned_data.get["avatar"]
+            new_avatar = formulario.cleaned_data.get("avatar")
             datos_extra.avatar = new_avatar if new_avatar else datos_extra.avatar
             datos_extra.save()
 
