@@ -32,8 +32,9 @@ def register(request):
     if request.method == "POST":
         formulario = FormularioDeCreacionDeUsuario(request.POST)
         if formulario.is_valid():
+            user = formulario.save()
            
-            formulario.save()
+            DatosExtra.objects.get_or_create(user=user, avatar='avatars/default-avatar.jpg')
 
             return redirect("usuarios:login")
 
@@ -47,9 +48,10 @@ def editar_perfil(request):
     if request.method == "POST":
         formulario = FormularioEdicionPerfil(request.POST, request.FILES, instance=request.user)
         if formulario.is_valid():
-            
             new_avatar = formulario.cleaned_data.get("avatar")
-            datos_extra.avatar = new_avatar if new_avatar else datos_extra.avatar
+            
+            if new_avatar:
+                datos_extra.avatar = new_avatar
             datos_extra.save()
 
             formulario.save()
